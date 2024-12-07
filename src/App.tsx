@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// 子コンポーネント
+import { TodoListComp } from './components/TodoList';
+import { AddTodoFormComp } from './components/AddTodoForm';
+import { TodoSummaryComp } from './components/TodoSummary';
 
+// カスタムフック
+import { useTodoList } from './hooks/useTodoList';
+
+// 親コンポーネント
 function App() {
-  const [count, setCount] = useState(0)
+  // カスタムフック
+  const { todoList, changeCompleted, addTodo, deleteTodo, deleteAllCompleted } = useTodoList();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <main className="mx-auto mt-10 max-w-xl space-y-10">
+      <h1 className="text-center text-4xl">Todoアプリ</h1>
+      <div className="space-y-5">
+        <AddTodoFormComp addTodo={addTodo} />
+        <div className="space-y-5 rounded bg-slate-200 p-5">
+          <TodoListComp 
+            todoList={todoList} 
+            changeCompleted={changeCompleted} 
+            deleteTodo={deleteTodo}
+          />
+          <TodoSummaryComp deleteAllCompleted={deleteAllCompleted} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </main>
+  );
 }
 
-export default App
+export default App;
